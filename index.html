@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alphabet Flip Cards A–Z</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card-container {
+      perspective: 1000px;
+      width: 120px;
+      height: 160px;
+      margin: 10px;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .front {
+      background: pink;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+    }
+
+    .back {
+      background: white;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .back img {
+      max-width: 100%;
+      max-height: 100px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .back .label {
+      margin-top: 5px;
+      font-size: 1em;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  window.onload = function () {
+    const imageData = {
+      A: { img: "https://www.flashcardsforkindergarten.com/wp-content/uploads/2020/06/fruit-flashcard-apple-725x1024.jpg", label: "Apple" },
+      B: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHq60PIV8A1Y-rP0BoCL5Jr8rT3sAYmv0zZQ&s", label: "Ball" },
+      C: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr5w8iLiiLCNfgohBUdsL2GfQOSKa3jUn3HA&s", label: "Cat" },
+      D: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTry6F5VbYM78WiLxDp6L_La2OiYCqErJe4w&s", label: "Dog" },
+      E: { img: "https://c8.alamy.com/comp/KEB4Y0/flashcard-letter-e-is-for-elephant-KEB4Y0.jpg", label: "Elephant" },
+      F: { img: "https://cdn.vectorstock.com/i/1000v/47/33/flashcard-letter-f-is-for-fish-vector-19404733.jpg", label: "Fish" },
+      G: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1jgCmsmSCkc86Y8TO7ensSvdrZdRMQM6L3A&s", label: "Grass" },
+      H: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIL9N-ON5v3ZIIIijOZAHF1FXU58Ui5une9g&s", label: "House" },
+      I: { img: "https://www.shutterstock.com/image-vector/vocabulary-flash-card-kids-ice-260nw-1946375017.jpg", label: "Ice Cream" },
+      J: { img: "https://i.pinimg.com/1200x/54/ea/a7/54eaa78581da2668dba747da21d691b0.jpg", label: "Juice" },
+      K: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfpNNJkZdJazFjQqm0wx7jaMfGX44m_Ihw9Q&s", label: "Kite" },
+      L: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW8R_bC2goQyTAzM5ui0jCXAKn9zJPVXeADg&s", label: "Lion" },
+      M: { img: "https://i.pinimg.com/564x/54/29/5e/54295e7ca39fe72865550cb75bd8cbdb.jpg", label: "Monkey" },
+      N: { img: "https://www.shutterstock.com/shutterstock/photos/420946222/display_1500/stock-vector-flashcard-letter-n-is-for-nest-illustration-420946222.jpg", label: "Nest" },
+      O: { img: "https://i.pinimg.com/736x/ff/37/2f/ff372f4cb0008d07df4a8938200acfc0.jpg", label: "Orange" },
+      P: { img: "https://i.pinimg.com/736x/88/d1/7e/88d17ecc5e254461e84996e521760163.jpg", label: "Parrot" },
+      Q: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4kuf813svxFjieFUdzLE5gxXdqYXwJqp5A&s", label: "Queen" },
+      R: { img: "https://i.pinimg.com/originals/63/0d/75/630d75261d4e4eff3ef00513ddd75edd.png", label: "Rabbit" },
+      S: { img: "https://i.pinimg.com/736x/64/be/9a/64be9a9212d8dcd0843492b26854cd4a.jpg", label: "Ship" },
+      T: { img: "https://i.pinimg.com/736x/63/00/7e/63007ec0b5417a667df72ab0d6c0e06d.jpg", label: "Tiger" },
+      U: { img: "https://i.pinimg.com/736x/b8/70/73/b87073211ce5757fbb1d7a021a6cca06.jpg", label: "Umbrella" },
+      V: { img: "https://png.pngtree.com/png-clipart/20230814/original/pngtree-flashcard-letter-v-is-for-van-illustration-english-lettering-vector-picture-image_10632874.png", label: "Van" },
+      W: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3EDbagyhEITnQ3a6Zw3WYM9QvuEegcRYV4g2r3c43nND_iDrMmSgJV_ELkDzJ6Kk5auI&usqp=CAU", label: "Watch" },
+      X: { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8NtPSB9Ln2tQorOga4YqceThNd_pttbQ3MQ&s", label: "Xylophone" },
+      Y: { img: "https://www.flashcardsforkindergarten.com/wp-content/uploads/2020/06/Arctic-animal-yak-flashcard-725x1024.jpg", label: "Yak" },
+      Z: { img: "https://images.twinkl.co.uk/tw1n/image/private/t_630/u/ux/screen-shot-2020-10-12-at-14.01.04_ver_1.png", label: "Zebra" }
+    };
+
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+
+    alphabet.forEach(letter => {
+      const cardWrapper = document.createElement('div');
+      cardWrapper.className = 'card-container';
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      card.innerHTML = `
+        <div class="card-face front">${letter}</div>
+        <div class="card-face back">
+          <img src="${imageData[letter].img}" alt="${letter}">
+          <div class="label">${imageData[letter].label}</div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+
+      cardWrapper.appendChild(card);
+      document.body.appendChild(cardWrapper)
+</script>
